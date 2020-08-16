@@ -1,0 +1,16 @@
+overwrite: true
+schema: ../schemas/**/*.graphql
+documents: ../schemas/**/*.graphql
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-mongodb
+    config:
+      noSchemaStitching: true
+      avoidOptionals: true
+      namePrefix: gql
+      idFieldName: ''
+      scalars:
+        Date: Date
+    

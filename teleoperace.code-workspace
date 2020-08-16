@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"codegen",
+			"mongodata",
+			"mongodb",
+			"teleoperace",
+			"todos",
+			"typegoose"
+		]
+	}
+}

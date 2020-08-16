@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  # server:
+  #   container_name: race-server
+  #   restart: always
+  #   build: ./teleoperace-backend
+  #   ports:
+  #     - '3010:3010'
+  #   volumes:
+  #     - ./teleoperace-backend:/usr/src/app/server
+  #   links:
+  #     - mongo
+  # client:
+  #   container_name: race-client
+  #   restart: always
+  #   build: ./teleoperace-app
+  #   volumes:
+  #     - ./teleoperace-app:/usr/src/app/client
+  #   ports:
+  #     - '3000:3000'
+  mongo:
+    hostname: mongodb
+    container_name: mongodb
+    restart: always
+    image: mongo
+    volumes: 
+      - mongodata:/data/db
+    ports:
+      - '27017:27017'
+
+volumes:
+  mongodata:

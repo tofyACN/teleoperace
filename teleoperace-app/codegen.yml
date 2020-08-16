@@ -1,0 +1,13 @@
+overwrite: true
+schema: "..\\schemas\\teleopeRACE.graphql"
+documents: "..\\schemas\\teleopeRACE.graphql"
+generates:
+  src/components/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      nonOptionalTypename: true
+      withComponent: true
+      withHooks: false      
