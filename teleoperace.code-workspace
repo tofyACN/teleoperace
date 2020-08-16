@@ -6,12 +6,6 @@
 	],
 	"settings": {
 		"cSpell.words": [
-			"codegen",
-			"mongodata",
-			"mongodb",
-			"teleoperace",
-			"todos",
-			"typegoose"
-		]
+			"teleoperace"		]
 	}
 }
