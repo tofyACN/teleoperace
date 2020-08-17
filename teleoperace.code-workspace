@@ -6,6 +6,9 @@
 	],
 	"settings": {
 		"cSpell.words": [
-			"teleoperace"		]
+			"esnext",
+			"teleoperace",
+			"typegoose"
+		]
 	}
 }
