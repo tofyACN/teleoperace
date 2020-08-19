@@ -6,12 +6,17 @@
 	],
 	"settings": {
 		"cSpell.words": [
+			"Anurag",
+			"Garg",
 			"MERN",
+			"asynciterable",
 			"esnext",
 			"inmemory",
 			"mongodata",
 			"mongodb",
 			"nextjs",
+			"prebuild",
+			"prestart",
 			"teleoperace",
 			"toastify",
 			"typegoose",

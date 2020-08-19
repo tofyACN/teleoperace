@@ -48,14 +48,14 @@ const typeDefs = gql`
 const schema: ApolloServerExpressConfig = {
   typeDefs,
   resolvers,
-  introspection: true,
+  // introspection: true,
   context: async ({ req, connection, payload }: any) => {
     if (connection) {
       return { isAuth: payload.authToken };
     }
     return { isAuth: req.isAuth };
-  },
-  playground: true
+  }
+  // ,playground: true
 };
 
 export default schema;

@@ -8,7 +8,7 @@
     "clean": "rm -rf dist",
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "yarn clean && tsc",
-    "compile": "tsc && node ./dist/index.js",
+    "compile": "tsc && node -r dotenv/config ./dist/index.js",
     "prestart": "yarn build",
     "start": "nodemon -e ts --exec \"yarn compile\"",
     "test": "echo \"Error: no test specified\" && exit 1",
