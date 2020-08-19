@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import config from '../../../config';
 import UserSchema from '../../models/user';
-import { transformUser } from './merge';
+import { transformDocument } from './merge';
 
 const User = getModelForClass(UserSchema);
 
@@ -25,7 +25,7 @@ const UserQueries = {
     try {
       const users = await User.find();
       return users.map((user) => {
-        return transformUser(user);
+        return transformDocument(user);
       });
     } catch (err) {
       throw err;
@@ -34,7 +34,7 @@ const UserQueries = {
   user: async (parent, { userId }) => {
     try {
       const user = await User.findById(userId);
-      return transformUser(user);
+      return transformDocument(user);
     } catch (err) {
       throw err;
     }
@@ -79,7 +79,7 @@ const UserMutation = {
         });
         const savedUser = await newUser.save();
         pubsub.publish(USER_ADDED, {
-          userAdded: transformUser(savedUser)
+          userAdded: transformDocument(savedUser)
         });
         const token = jwt.sign({ userId: savedUser.id }, config.jwtSecret, {
           expiresIn: '1h'
@@ -103,7 +103,7 @@ const UserMutation = {
       const user = await User.findByIdAndUpdate(userId, updateUser, {
         new: true
       });
-      return transformUser(user);
+      return transformDocument(user);
     } catch (error) {
       throw error;
     }

@@ -12,13 +12,19 @@ const typeDefs = gql`
     users: [User!]!
     user(userId: ID!): User!
     login(email: String!, password: String!): AuthData!
+    rovers: [Rover!]!
+    rover(roverInput: RoverInput!): Rover!
   }
   type Mutation {
     createUser(userInput: UserInput): AuthData!
     updateUser(userId: ID!, updateUser: UpdateUser): User!
+    createRover(roverInput: RoverInput): Rover!
+    updateRover(userId: ID!, updateRover: RoverInput): Rover!
+    deleteRover(roverInput: RoverInput!): Rover!
   }
   type Subscription {
     userAdded: User
+    roverAdded: Rover
   }
   type User {
     _id: ID!
@@ -42,6 +48,17 @@ const typeDefs = gql`
     email: String
     name: String
     password: String
+  }
+  type Rover {
+    _id: ID!
+    name: String!
+    url: String!
+    createdAt: String!
+    updatedAt: String!
+  }
+  input RoverInput {
+    name: String!
+    url: String!
   }
 `;
 

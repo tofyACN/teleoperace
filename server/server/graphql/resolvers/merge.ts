@@ -31,13 +31,13 @@ const getUser = async (id: string) => {
  * Get user object with schema typing
  * @param user
  */
-const transformUser = (user: any) => {
+const transformDocument = ($doc: any) => {
   return {
-    ...user._doc,
-    _id: user.id,
-    createdAt: dateToString(user._doc.createdAt),
-    updatedAt: dateToString(user._doc.updatedAt)
+    ...$doc._doc,
+    _id: $doc.id,
+    createdAt: $doc._doc.createdAt ? dateToString($doc._doc.createdAt) : '',
+    updatedAt: $doc._doc.updatedAt ? dateToString($doc._doc.updatedAt) : ''
   };
 };
 
-export { getUser, transformUser };
+export { getUser, transformDocument };

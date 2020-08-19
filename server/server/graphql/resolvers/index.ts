@@ -3,19 +3,23 @@
  * @author Anurag Garg <garganurag893@gmail.com>
  */
 
+import { RoverMutation, RoverQueries, RoverSubscription } from './rover';
 import { UserMutation, UserQueries, UserSubscription } from './user';
 
 const rootResolver = {
   Query: {
-    ...UserQueries
+    ...UserQueries,
+    ...RoverQueries
     // Add other queries here
   },
   Mutation: {
-    ...UserMutation
+    ...UserMutation,
+    ...RoverMutation
     // Add other mutations here
   },
   Subscription: {
-    ...UserSubscription
+    ...UserSubscription,
+    ...RoverSubscription
     // Add other subscriptions here
   }
 };
