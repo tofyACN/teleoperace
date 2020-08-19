@@ -3,12 +3,16 @@
  * @author Anurag Garg <garganurag893@gmail.com>
  */
 
+import { getModelForClass } from '@typegoose/typegoose';
 import { PubSub } from 'apollo-server';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import config from '../../../config';
-import User from '../../models/user';
+import UserSchema from '../../models/user';
 import { transformUser } from './merge';
+
+const User = getModelForClass(UserSchema);
+
 const pubsub = new PubSub();
 
 const USER_ADDED = 'USER_ADDED';

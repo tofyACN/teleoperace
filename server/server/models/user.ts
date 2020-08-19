@@ -1,7 +1,7 @@
-import { prop } from '@typegoose/typegoose';
+import { prop} from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
-export class User extends TimeStamps{
+export default class UserSchema extends TimeStamps {
   @prop()
   public name: string;
 

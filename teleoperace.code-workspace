@@ -6,9 +6,16 @@
 	],
 	"settings": {
 		"cSpell.words": [
+			"MERN",
 			"esnext",
+			"inmemory",
+			"mongodata",
+			"mongodb",
+			"nextjs",
 			"teleoperace",
-			"typegoose"
+			"toastify",
+			"typegoose",
+			"unfetch"
 		]
 	}
 }
