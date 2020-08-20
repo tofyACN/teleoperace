@@ -3,23 +3,35 @@
  * @author Anurag Garg <garganurag893@gmail.com>
  */
 
+import { ParticipantMutation, ParticipantQueries, ParticipantSubscription } from './participant';
+import { RaceMutation, RaceQueries, RaceSubscription } from './race';
 import { RoverMutation, RoverQueries, RoverSubscription } from './rover';
+import { ScoreMutation, ScoreQueries, ScoreSubscription } from './score';
 import { UserMutation, UserQueries, UserSubscription } from './user';
 
 const rootResolver = {
   Query: {
     ...UserQueries,
-    ...RoverQueries
+    ...RoverQueries,
+    ...RaceQueries,
+    ...ParticipantQueries,
+    ...ScoreQueries
     // Add other queries here
   },
   Mutation: {
     ...UserMutation,
-    ...RoverMutation
+    ...RoverMutation,
+    ...RaceMutation,
+    ...ParticipantMutation,
+    ...ScoreMutation
     // Add other mutations here
   },
   Subscription: {
     ...UserSubscription,
-    ...RoverSubscription
+    ...RoverSubscription,
+    ...RaceSubscription,
+    ...ParticipantSubscription,
+    ...ScoreSubscription
     // Add other subscriptions here
   }
 };

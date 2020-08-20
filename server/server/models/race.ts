@@ -1,9 +1,12 @@
-import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import { prop, Ref } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 import ParticipantSchema from './participant';
-import { ScoreSchema } from './score';
+import ScoreSchema from './score';
 
-export class RaceSchema extends TimeStamps {
+export default class RaceSchema extends TimeStamps {
+    @prop({required: true})
+    public title: string;
+
     @prop()
     public plannedStartDate: Date;
 
@@ -17,14 +20,8 @@ export class RaceSchema extends TimeStamps {
     public endDate: Date;
 
     @prop({ ref: () => ParticipantSchema })
-    public participants: Array<Ref<ParticipantSchema>>;
+    public participants?: Array<Ref<ParticipantSchema>>;
 
     @prop({ ref: () => ScoreSchema })
-    public scores: Array<Ref<ScoreSchema>>;
+    public scores?: Array<Ref<ScoreSchema>>;
 }
-
-const Race = getModelForClass(RaceSchema);
-
-export default Race;
-
-module.exports = { RaceSchema };
