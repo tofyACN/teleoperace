@@ -1,0 +1,12 @@
+
+Todo:
+  ✔ Create CRUD operations for all objects @done(20-08-20 19:28)
+  ☐ Define use-cases
+  ☐ Create use-case specific queries:
+    ☐ Create specific queries/mutations for races
+    ☐ Create specific queries/mutations for scores
+    ☐ Create specific queries for reporting by users (with races and scores)
+    ☐ Create specific queries for hall-of-fame
+  ☐ Develop screens for use-cases
+    ☐ Develop React pages and components
+    ☐ Use/define specific queries in components
