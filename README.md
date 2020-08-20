@@ -5,21 +5,4 @@ Source: <https://github.com/garganurag893/Next.js_GraphQL_Express_Apollo_Boilerp
 
 ## Implementation status
 
-Data model created for:
-
-* User
-* Rover
-* Participant (->User, ->Rover)
-* Race (->Participants, ->Scores)
-* Score (->Participant, ->Race, )
-
-API ready for:
-
-* User - CRUD + logon
-* Rover - CRUD
-
-UI ready for:
-
-* Logon
-* User registration
-* Welcome page (to be adapted)
+Please refer to the TODO file.
