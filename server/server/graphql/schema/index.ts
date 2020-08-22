@@ -16,8 +16,7 @@ const typeDefs = gql`
     rover(roverInput: RoverInput!): Rover!
     races: [Race!]!
     # race: (raceInput: RaceInput!) Race!
-    scores: [Score!]!
-    participants: [Participant!]!
+    # participants: [Participant!]!
   }
   type Mutation {
     createUser(userInput: UserInput): AuthData!
@@ -27,24 +26,16 @@ const typeDefs = gql`
     updateRover(userId: ID!, updateRover: RoverInput): Rover!
     deleteRover(roverInput: RoverInput!): Rover!
 
-    createParticipant(participantInput: ParticipantInput): Participant!
-    updateParticipant(userId: ID!, updateParticipant: ParticipantInput): Participant!
-    deleteParticipant(participantInput: ParticipantInput!): Participant!
-
     createRace(raceInput: RaceInput): Race!
     updateRace(userId: ID!, updateRace: RaceInput): Race!
     deleteRace(raceInput: RaceInput!): Race!
-
-    createScore(scoreInput: ScoreInput): Score!
-    updateScore(userId: ID!, updateScore: ScoreInput): Score!
-    deleteScore(scoreInput: ScoreInput!): Score!
+    addParticipant(participantInput: ParticipantInput): Participant!
   }
   type Subscription {
     userAdded: User
     roverAdded: Rover
     raceAdded: Race
     participantAdded: Participant
-    scoreAdded: Score
   }
   type User {
     _id: ID!
@@ -69,6 +60,7 @@ const typeDefs = gql`
   type Participant {
     user: User!
     rover: Rover!
+    score: Int!
   }
   type Race {
     _id: ID!
@@ -77,14 +69,7 @@ const typeDefs = gql`
     startDate: String
     plannedEndDate: String
     endDate: String
-    participants: [Participant!]
-    scores: [Score!]
-  }
-  type Score {
-    _id: ID!
-    participant: Participant!
-    race: Race!
-    score: Int!
+    participants: [Participant!]!
   }
   input UserInput {
     email: String
@@ -107,16 +92,11 @@ const typeDefs = gql`
     plannedEndDate: String
     endDate: String
     participants: [ParticipantInput!]
-    scores: [ScoreInput!]
-  }
-  input ScoreInput {
-    participant: ParticipantInput
-    race: RaceInput
-    score: Int
   }
   input ParticipantInput {
-    user: UserInput!
-    rover: RoverInput!
+    userId: ID!
+    roverId: ID!
+    score: Int
   }
 `;
 

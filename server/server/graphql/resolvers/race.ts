@@ -6,14 +6,17 @@
 import { getModelForClass } from '@typegoose/typegoose';
 import { PubSub } from 'apollo-server';
 import mongoose from 'mongoose';
+import ParticipantSchema from '../../models/participant';
 import RaceSchema from '../../models/race';
 import { transformDocument } from './merge';
 
 const Race = getModelForClass(RaceSchema);
+const Participant = getModelForClass(ParticipantSchema);
 
 const pubsub = new PubSub();
 
 const RACE_ADDED = 'RACE_ADDED';
+const PARTICIPANT_ADDED = 'RACE_ADDED';
 
 /**
  * Race Queries
@@ -60,7 +63,8 @@ const RaceMutation = {
       } else {
         const newRace = new Race({
           _id: new mongoose.Types.ObjectId(),
-          title: raceInput.title
+          title: raceInput.title,
+          participants: []
         });
         const savedRace = await newRace.save();
         pubsub.publish(RACE_ADDED, {
@@ -104,8 +108,31 @@ const RaceMutation = {
     } catch (error) {
       throw error;
     }
+  },
+  addParticipant: async (parent, { raceId, participantInput }, context) => {
+    // If not authenticated throw error
+    // if (!context.isAuth) {
+    //   throw new Error('Non Authenticated');
+    // }
+    try {
+      const race = await Race.findById(raceId);
+      if (race.participants.find((p) => p.user === participantInput.userId)) {
+        throw new Error('User already assigned!');
+      }
+      if (race.participants.find((p) => p.rover === participantInput.roverId)) {
+        throw new Error('Rover already assigned!');
+      }
+      const participant = new Participant(participantInput);
+      race.participants.push(participant);
+      await race.save();
+      pubsub.publish(PARTICIPANT_ADDED, {
+        participantAdded: transformDocument(participant)
+      });
+      return transformDocument(participant);
+    } catch (error) {
+      throw error;
+    }
   }
-
 };
 
 /**
@@ -114,6 +141,9 @@ const RaceMutation = {
 const RaceSubscription = {
   raceAdded: {
     subscribe: () => pubsub.asyncIterator([RACE_ADDED])
+  },
+  participantAdded: {
+    subscribe: () => pubsub.asyncIterator([PARTICIPANT_ADDED])
   }
 };
 
