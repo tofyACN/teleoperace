@@ -12,7 +12,7 @@
     "prestart": "yarn clean",
     "start": "nodemon -e ts --exec \"yarn compile\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pre-commit": "yarn tslint && yarn build",
+    "pre-commit": "yarn tslint:fix",
     "tslint": "tslint --project tsconfig.json",
     "tslint:fix": "tslint --project tsconfig.json --fix"
   },
