@@ -14,7 +14,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): AuthData!
     rovers: [Rover!]!
     rover(roverInput: RoverInput!): Rover!
-    races: [Race!]!
+    races: [Race!]
     # race: (raceInput: RaceInput!) Race!
     # participants: [Participant!]!
   }
@@ -29,7 +29,7 @@ const typeDefs = gql`
     createRace(raceInput: RaceInput): Race!
     updateRace(userId: ID!, updateRace: RaceInput): Race!
     deleteRace(raceInput: RaceInput!): Race!
-    addParticipant(participantInput: ParticipantInput): Participant!
+    addParticipant(raceId: ID!, participantInput: ParticipantInput): Race!
   }
   type Subscription {
     userAdded: User
@@ -58,10 +58,11 @@ const typeDefs = gql`
     updatedAt: String!
   }
   type Participant {
-    user: User!
-    rover: Rover!
-    score: Int!
+    user: User
+    rover: Rover
+    score: Int
   }
+
   type Race {
     _id: ID!
     title: String!
