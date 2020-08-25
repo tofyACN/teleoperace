@@ -18,6 +18,6 @@ export default class RaceSchema extends TimeStamps {
     @prop()
     public endDate: Date;
 
-    @prop()
+    @prop({required: true})
     public participants: [ParticipantSchema];
 }

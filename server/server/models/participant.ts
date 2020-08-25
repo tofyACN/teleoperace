@@ -9,4 +9,7 @@ export default class ParticipantSchema extends TimeStamps {
 
     @prop({ ref: () => RoverSchema, required: true })
     public rover: Ref<RoverSchema>;
+
+    @prop()
+    public score: number;
 }
