@@ -118,22 +118,26 @@ const RaceMutation = {
     //   throw new Error('Non Authenticated');
     // }
     try {
-      let race = await Race.findById(raceId).populate([{path: 'participants.user', model: User}, {path: 'participants.rover', model: Rover}]).exec();
-      if (race.participants.find((p) => p.user === participantInput.userId)) {
+      let findExistingUser = await Race.findById(raceId).populate([{path: 'participants.user',
+                                    match: {_id: participantInput.UserId}}]).exec();
+      if (findExistingUser.participants.length > 0) {
         throw new Error('User already assigned!');
       }
-      if (race.participants.find((p) => p.rover === participantInput.roverId)) {
+      let findExistingRover = await Race.findById(raceId).populate([{path: 'participants.rover',
+                                    match: {_id: participantInput.RoverId}}]).exec();      
+      if (findExistingRover.participants.length > 0) {
         throw new Error('Rover already assigned!');
       }
+
       const participant = new Participant({user: participantInput.userId, rover: participantInput.roverId});
 
-      race = await Race.findByIdAndUpdate(raceId,
+      let modifiedRace = await Race.findByIdAndUpdate(raceId,
           {$push: {participants: participant}}).exec();
 
-      await race.populate([{path: 'participants.user', model: User, select: 'name email'},
-                          {path: 'participants.rover', model: Rover, select: 'name url'}]).
-                          execPopulate();
-      return toPOJO(race);
+      modifiedRace = await modifiedRace.populate([{path: 'participants.user', select: 'name email'},
+                      {path: 'participants.rover', select: 'name url'}]).
+                      execPopulate();
+      return toPOJO(modifiedRace);
 
       // return race;
     } catch (error) {
