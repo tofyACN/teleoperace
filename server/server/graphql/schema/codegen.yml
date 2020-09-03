@@ -13,3 +13,4 @@ generates:
         Race: ../../models/race#Race
       scalars:
         Date: Date
+        ID: mongoose#Types#ObjectId

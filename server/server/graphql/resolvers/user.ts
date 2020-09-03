@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 import config from '../../../config';
 import { User } from '../../models/user';
 import { transformDocument } from './merge';
+import { UserInput } from './resolvers-types';
 
 const pubsub = new PubSub();
 
@@ -28,7 +29,7 @@ const UserQueries = {
       throw err;
     }
   },
-  user: async (parent, { userId }) => {
+  user: async (parent, userId: mongoose.Types.ObjectId ) => {
     try {
       const user = await User.findById(userId);
       return transformDocument(user);
@@ -36,9 +37,9 @@ const UserQueries = {
       throw err;
     }
   },
-  login: async (parent, { email, password }) => {
+  login: async (parent, email: string, password: string) => {
     try {
-      const user: any = await User.findOne({ email, password });
+      const user = await User.findOne({ email, password });
       if (!user) {
         throw new Error('User does not Exists');
       }
@@ -60,7 +61,7 @@ const UserQueries = {
  * User Mutations
  */
 const UserMutation = {
-  createUser: async (parent: any, { userInput }: any) => {
+  createUser: async (parent: any, userInput: UserInput) => {
     try {
       const user = await User.findOne({
         email: userInput.email
@@ -69,7 +70,6 @@ const UserMutation = {
         throw new Error('User already Exists');
       } else {
         const newUser = new User({
-          _id: new mongoose.Types.ObjectId(),
           email: userInput.email,
           name: userInput.name,
           password: userInput.password
