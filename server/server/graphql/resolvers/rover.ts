@@ -1,15 +1,13 @@
 /**
  * File containing all rover queries, mutations and subscriptions
- * @author Anurag Garg <garganurag893@gmail.com>
+ * @author László Tófalvi <tofalvi.laszlo@gmail.com>
  */
 
-import { getModelForClass } from '@typegoose/typegoose';
 import { PubSub } from 'apollo-server';
 import mongoose from 'mongoose';
-import RoverSchema from '../../models/rover';
+import { RoverInput, UpdateRover} from '../../graphql/resolvers/resolvers-types';
+import {Rover} from '../../models/rover';
 import { transformDocument } from './merge';
-
-const Rover = getModelForClass(RoverSchema);
 
 const pubsub = new PubSub();
 
@@ -29,7 +27,7 @@ const RoverQueries = {
       throw err;
     }
   },
-  rover: async (parent, { roverInput }) => {
+  rover: async (parent, roverInput: RoverInput) => {
     try {
       const rover = await Rover.findOne({
         name: roverInput.name
@@ -49,7 +47,7 @@ const RoverQueries = {
  * Rover Mutations
  */
 const RoverMutation = {
-  createRover: async (parent: any, { roverInput }: any) => {
+  createRover: async (parent: any, roverInput: RoverInput) => {
     try {
       const rover = await Rover.findOne({
         name: roverInput.name
@@ -72,13 +70,13 @@ const RoverMutation = {
       throw error;
     }
   },
-  updateRover: async (parent, { roverId, updateRover }, context) => {
+  updateRover: async (parent, updateRover: UpdateRover, context) => {
     // If not authenticated throw error
     if (!context.isAuth) {
       throw new Error('Non Authenticated');
     }
     try {
-      const rover = await Rover.findByIdAndUpdate(roverId, updateRover, {
+      const rover = await Rover.findByIdAndUpdate(updateRover.id, updateRover, {
         new: true
       });
       return transformDocument(rover);
@@ -86,10 +84,10 @@ const RoverMutation = {
       throw error;
     }
   },
-  deleteRover: async (parent, { roverInput }, context) => {
+  deleteRover: async (parent, roverInput: RoverInput, context) => {
     // // If not authenticated throw error
     // if (!context.isAuth) {
-    //   throw new Error('Non Authenticated');
+    //   throw new Error('Not Authenticated');
     // }
     try {
       const rover = await Rover.findOne({

@@ -1,19 +1,16 @@
 /**
  * File containing all race queries, mutations and subscriptions
- * @author Anurag Garg <garganurag893@gmail.com>
+ * @author László Tófalvi <tofalvi.laszlo@gmail.com>
  */
 
-import { DocumentType, getModelForClass } from '@typegoose/typegoose';
+import { DocumentType } from '@typegoose/typegoose';
 import { PubSub } from 'apollo-server';
-import ParticipantSchema from '../../models/participant';
+import { Participant } from '../../models/participant';
+import { Race } from '../../models/race';
 import RaceSchema from '../../models/race';
-import RoverSchema from '../../models/rover';
-import UserSchema from '../../models/user';
-
-const Race = getModelForClass(RaceSchema);
-const User = getModelForClass(UserSchema);
-const Rover = getModelForClass(RoverSchema);
-const Participant = getModelForClass(ParticipantSchema);
+import { Rover } from '../../models/rover';
+import { User } from '../../models/user';
+import { RaceInput, RaceParticipantInput, UpdateRace } from './resolvers-types';
 
 const pubsub = new PubSub();
 
@@ -56,7 +53,7 @@ const RaceQueries = {
  * Race Mutations
  */
 const RaceMutation = {
-  createRace: async (parent: any, { raceInput }: any) => {
+  createRace: async (parent: any, raceInput: RaceInput) => {
     try {
       const race = await Race.findOne({
         title: raceInput.title
@@ -79,21 +76,22 @@ const RaceMutation = {
       throw error;
     }
   },
-  updateRace: async (parent, { raceId, updateRace }, context) => {
+  updateRace: async (parent, updateRace: UpdateRace, context) => {
     // If not authenticated throw error
     if (!context.isAuth) {
       throw new Error('Non Authenticated');
     }
     try {
-      const race = await Race.findByIdAndUpdate(raceId, updateRace, {
-        new: true
+      const race = await Race.findById(updateRace.id).exec();
+      updateRace.participants.forEach((element) => {
+        race.participants.push(new Participant({ userId: element.userId, roverId: element.roverId}));
       });
       return toPOJO(race);
     } catch (error) {
       throw error;
     }
   },
-  deleteRace: async (parent, { raceInput }, context) => {
+  deleteRace: async (parent, raceInput: RaceInput, context) => {
     // // If not authenticated throw error
     // if (!context.isAuth) {
     //   throw new Error('Non Authenticated');
@@ -112,26 +110,27 @@ const RaceMutation = {
       throw error;
     }
   },
-  addParticipant: async (parent, { raceId, participantInput }, context) => {
+  addParticipant: async (parent, raceParticipantInput: RaceParticipantInput, context) => {
     // If not authenticated throw error
     // if (!context.isAuth) {
     //   throw new Error('Non Authenticated');
     // }
     try {
-      let findExistingUser = await Race.findById(raceId).populate([{path: 'participants.user',
-                                    match: {_id: participantInput.UserId}}]).exec();
+      const findExistingUser = await Race.findById(raceParticipantInput.raceId).populate([{path: 'participants.user',
+                                    match: {_id: raceParticipantInput.participant.userId}}]).exec();
       if (findExistingUser.participants.length > 0) {
         throw new Error('User already assigned!');
       }
-      let findExistingRover = await Race.findById(raceId).populate([{path: 'participants.rover',
-                                    match: {_id: participantInput.RoverId}}]).exec();      
+      const findExistingRover = await Race.findById(raceParticipantInput.raceId).populate([{path: 'participants.rover',
+                                    match: {_id: raceParticipantInput.participant.roverId}}]).exec();
       if (findExistingRover.participants.length > 0) {
         throw new Error('Rover already assigned!');
       }
 
-      const participant = new Participant({user: participantInput.userId, rover: participantInput.roverId});
+      const participant = new Participant({user: raceParticipantInput.participant.userId,
+                                          rover: raceParticipantInput.participant.roverId});
 
-      let modifiedRace = await Race.findByIdAndUpdate(raceId,
+      let modifiedRace = await Race.findByIdAndUpdate(raceParticipantInput.raceId,
           {$push: {participants: participant}}).exec();
 
       modifiedRace = await modifiedRace.populate([{path: 'participants.user', select: 'name email'},

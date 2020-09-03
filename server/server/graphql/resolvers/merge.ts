@@ -1,13 +1,10 @@
 /**
  * Primary file for extracting proper schema structured objects
- * @author Anurag Garg <garganurag893@gmail.com>
+ * @author László Tófalvi <tofalvi.laszlo@gmail.com>
  */
 
-import { getModelForClass } from '@typegoose/typegoose';
 import dateToString from '../../helpers/date';
-import UserSchema from '../../models/user';
-
-const User = getModelForClass(UserSchema);
+import {User} from '../../models/user';
 
 /**
  * Get user object with schema typing

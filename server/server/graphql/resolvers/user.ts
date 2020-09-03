@@ -1,17 +1,14 @@
 /**
  * File containing all user queries, mutations and subscriptions
- * @author Anurag Garg <garganurag893@gmail.com>
+ * @author László Tófalvi <tofalvi.laszlo@gmail.com>
  */
 
-import { getModelForClass } from '@typegoose/typegoose';
 import { PubSub } from 'apollo-server';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import config from '../../../config';
-import UserSchema from '../../models/user';
+import { User } from '../../models/user';
 import { transformDocument } from './merge';
-
-const User = getModelForClass(UserSchema);
 
 const pubsub = new PubSub();
 

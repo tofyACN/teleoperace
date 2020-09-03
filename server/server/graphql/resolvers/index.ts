@@ -1,13 +1,15 @@
 /**
  * Exporting all resolvers
- * @author Anurag Garg <garganurag893@gmail.com>
+ * @author László Tófalvi <tofalvi.laszlo@gmail.com>
  */
 
+import {GraphQLDate} from 'graphql-scalars';
 import { RaceMutation, RaceQueries, RaceSubscription } from './race';
 import { RoverMutation, RoverQueries, RoverSubscription } from './rover';
 import { UserMutation, UserQueries, UserSubscription } from './user';
 
 const rootResolver = {
+  Date: GraphQLDate,
   Query: {
     ...UserQueries,
     ...RoverQueries,

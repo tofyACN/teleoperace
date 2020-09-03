@@ -1,6 +1,6 @@
 /**
  * Bootstrap your app
- * @author Anurag Garg <garganurag893@gmail.com>
+ * @author László Tófalvi <tofalvi.laszlo@gmail.com>
  */
 
 import Promise from 'bluebird';

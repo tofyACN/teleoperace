@@ -1,5 +1,5 @@
 {
-  "name": "Express_GraphQL_Apollo_Mongodb_Server",
+  "name": "express_graphql_apollo_mongodb_server",
   "version": "1.0.0",
   "description": "Backend Server for Next.js GraphQL Express Apollo Boilerplate",
   "private": true,
@@ -14,10 +14,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pre-commit": "yarn tslint:fix",
     "tslint": "tslint --project tsconfig.json",
-    "tslint:fix": "tslint --project tsconfig.json --fix"
+    "tslint:fix": "tslint --project tsconfig.json --fix",
+    "postinstall": "yarn codegen",
+    "generate": "yarn codegen",
+    "codegen": "graphql-codegen --config ./server/graphql/schema/codegen.yml"
   },
   "keywords": [],
-  "author": "Anurag Garg",
+  "author": "László Tófalvi",
   "license": "MIT",
   "husky": {
     "hooks": {
@@ -25,12 +28,17 @@
     }
   },
   "dependencies": {
+    "@graphql-codegen/cli": "^1.17.8",
+    "@graphql-codegen/typescript": "^1.17.9",
+    "@graphql-codegen/typescript-resolvers": "^1.17.9",
     "@typegoose/typegoose": "^7.3.2",
     "apollo-server": "^2.9.6",
     "apollo-server-express": "^2.16.1",
     "bluebird": "^3.5.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "graphql-import": "^1.0.2",
+    "graphql-scalars": "^1.2.6",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.6.13"

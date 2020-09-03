@@ -23,7 +23,8 @@
   "linterOptions": {
     "exclude": [
       "node_modules/**",
-      "dist/**/*.ts"
+      "dist/**/*.ts",
+      "server/graphql/resolvers/resolvers-types.ts"
     ]
   },
   "rulesDirectory": []
