@@ -138,10 +138,13 @@ const RaceMutation = {
       const participant = new Participant({user: args.participantInput.userId,
                                           rover: args.participantInput.roverId});
 
-      const raceUpdated = await (Race.findByIdAndUpdate(args.raceId, {$push: {participants: participant}}, {new: true})
-                 .populate([{path: 'participants.user', select: 'name email', model: User},
-                            {path: 'participants.rover', select: 'name url', model: Rover}])
-                 .exec());
+      const raceUpdated = await Race.findByIdAndUpdate(args.raceId, {$push: {participants: participant}}, {new: true})
+        .populate([{path: 'participants.user', select: 'name email', model: User},
+                  {path: 'participants.rover', select: 'name url', model: Rover}])
+        .exec();
+      pubsub.publish(PARTICIPANT_ADDED, {
+        participantAdded: participant
+      });
       return toPOJO(raceUpdated);
     } catch (error) {
       throw error;
