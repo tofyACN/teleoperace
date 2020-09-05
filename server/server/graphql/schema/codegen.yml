@@ -1,4 +1,4 @@
-schema: ./server/graphql/schema/teleopeRace.graphql
+schema: ./server/graphql/schema/teleoperace.graphql
 # documents: ./server/graphql/schema/teleopeRace.graphql
 generates: 
   ./server/graphql/resolvers/resolvers-types.ts:

@@ -6,7 +6,8 @@ type Query {
     rovers: [Rover!]!
     rover(roverInput: RoverInput!): Rover!
     races: [Race!]
-    # race: (raceInput: RaceInput!) Race!
+    raceById(raceId: ID!): Race!
+    raceByTitle(title: String!): Race!
     # participants: [Participant!]!
   }
 type Mutation {
@@ -97,10 +98,6 @@ input UpdateRace {
   plannedEndDate: Date
   endDate: Date
   participants: [ParticipantInput!]
-}
-input RaceParticipantInput {
-  raceId: ID!
-  participant: ParticipantInput!
 }
 input ParticipantInput {
   userId: ID!

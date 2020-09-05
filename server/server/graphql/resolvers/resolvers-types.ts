@@ -108,6 +108,8 @@ export type Query = {
   rovers: Array<Rover>;
   rover: Rover;
   races?: Maybe<Array<Race>>;
+  raceById: Race;
+  raceByTitle: Race;
 };
 
 
@@ -124,6 +126,16 @@ export type QueryLoginArgs = {
 
 export type QueryRoverArgs = {
   roverInput: RoverInput;
+};
+
+
+export type QueryRaceByIdArgs = {
+  raceId: Scalars['ID'];
+};
+
+
+export type QueryRaceByTitleArgs = {
+  title: Scalars['String'];
 };
 
 export type Race = {
@@ -144,11 +156,6 @@ export type RaceInput = {
   plannedEndDate?: Maybe<Scalars['Date']>;
   endDate?: Maybe<Scalars['Date']>;
   participants?: Maybe<Array<ParticipantInput>>;
-};
-
-export type RaceParticipantInput = {
-  raceId: Scalars['ID'];
-  participant: ParticipantInput;
 };
 
 export type Rover = {
@@ -309,7 +316,6 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   UpdateRover: UpdateRover;
   UpdateRace: UpdateRace;
-  RaceParticipantInput: RaceParticipantInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -334,7 +340,6 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   UpdateRover: UpdateRover;
   UpdateRace: UpdateRace;
-  RaceParticipantInput: RaceParticipantInput;
 };
 
 export type AuthDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthData'] = ResolversParentTypes['AuthData']> = {
@@ -374,6 +379,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   rovers?: Resolver<Array<ResolversTypes['Rover']>, ParentType, ContextType>;
   rover?: Resolver<ResolversTypes['Rover'], ParentType, ContextType, RequireFields<QueryRoverArgs, 'roverInput'>>;
   races?: Resolver<Maybe<Array<ResolversTypes['Race']>>, ParentType, ContextType>;
+  raceById?: Resolver<ResolversTypes['Race'], ParentType, ContextType, RequireFields<QueryRaceByIdArgs, 'raceId'>>;
+  raceByTitle?: Resolver<ResolversTypes['Race'], ParentType, ContextType, RequireFields<QueryRaceByTitleArgs, 'title'>>;
 };
 
 export type RaceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Race'] = ResolversParentTypes['Race']> = {
