@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch server via NPM",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/server",
+            "runtimeArgs": [
+                "run-script",
+                "start"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**",
+                "c:/Program Files (x86)/Yarn/lib/cli.js",
+                "c:/Program Files (x86)/Yarn/lib/toSubscriber.js.map"
+            ],
+            "type": "pwa-node"
+        }
+    ]
+}
