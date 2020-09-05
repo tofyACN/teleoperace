@@ -4,7 +4,6 @@
  */
 
 import { PubSub } from 'apollo-server';
-import mongoose from 'mongoose';
 import { RoverInput, UpdateRover} from '../../graphql/resolvers/resolvers-types';
 import {Rover} from '../../models/rover';
 import { transformDocument } from './merge';
@@ -27,10 +26,10 @@ const RoverQueries = {
       throw err;
     }
   },
-  rover: async (parent, roverInput: RoverInput) => {
+  rover: async (parent, args: {roverInput: RoverInput}) => {
     try {
       const rover = await Rover.findOne({
-        name: roverInput.name
+        name: args.roverInput.name
       });
       if (rover) {
         return transformDocument(rover);
@@ -47,18 +46,17 @@ const RoverQueries = {
  * Rover Mutations
  */
 const RoverMutation = {
-  createRover: async (parent: any, roverInput: RoverInput) => {
+  createRover: async (parent: any, args: {roverInput: RoverInput}) => {
     try {
       const rover = await Rover.findOne({
-        name: roverInput.name
+        name: args.roverInput.name
       });
       if (rover) {
         throw new Error('Rover already Exists');
       } else {
         const newRover = new Rover({
-          _id: new mongoose.Types.ObjectId(),
-          name: roverInput.name,
-          url: roverInput.url
+          name: args.roverInput.name,
+          url: args.roverInput.url
         });
         const savedRover = await newRover.save();
         pubsub.publish(ROVER_ADDED, {
@@ -84,14 +82,14 @@ const RoverMutation = {
       throw error;
     }
   },
-  deleteRover: async (parent, roverInput: RoverInput, context) => {
+  deleteRover: async (parent, args: {roverInput: RoverInput}) => {
     // // If not authenticated throw error
     // if (!context.isAuth) {
     //   throw new Error('Not Authenticated');
     // }
     try {
       const rover = await Rover.findOne({
-        name: roverInput.name
+        name: args.roverInput.name
       });
       if (rover) {
         const deletedRover = await Rover.findByIdAndDelete(rover._id);

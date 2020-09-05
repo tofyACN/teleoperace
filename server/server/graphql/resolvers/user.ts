@@ -29,9 +29,9 @@ const UserQueries = {
       throw err;
     }
   },
-  user: async (parent, userId: mongoose.Types.ObjectId ) => {
+  user: async (parent, args: {userId: mongoose.Types.ObjectId} ) => {
     try {
-      const user = await User.findById(userId);
+      const user = await User.findById(args.userId);
       return transformDocument(user);
     } catch (err) {
       throw err;
